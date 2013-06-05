@@ -1,0 +1,206 @@
+package com.tcs;
+
+import javax.servlet.ServletConfig;
+import javax.servlet.ServletContext;
+import javax.servlet.ServletException;
+import javax.servlet.sip.Proxy;
+import javax.servlet.sip.ServletParseException;
+import javax.servlet.sip.SipApplicationSession;
+import javax.servlet.sip.SipFactory;
+import javax.servlet.sip.SipServlet;
+import javax.servlet.sip.SipSession;
+import javax.servlet.sip.URI;
+
+import java.io.IOException;
+
+import javax.servlet.*;
+import javax.servlet.sip.*;
+
+import java.util.*;
+
+import javax.servlet.sip.SipServletRequest;
+import javax.servlet.sip.SipServletResponse;
+
+import javax.servlet.sip.SipURI;
+import javax.servlet.sip.SipServletMessage;
+
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
+
+import org.apache.log4j.ConsoleAppender;
+import org.apache.log4j.FileAppender;
+import org.apache.log4j.Logger;
+import org.apache.log4j.SimpleLayout;
+
+public class Musichold extends SipServlet{
+
+	static final Logger logger = Logger.getLogger("CA");
+
+	public SipFactory factory = null;
+	public String server = null;
+	public int port = 0;
+	public String transport = null;
+
+	public SipApplicationSession caller2callee;
+	public SipApplicationSession caller2mediaserver;
+	public static ServletContext context;
+	public static Proxy proxy;
+
+	public URI uricaller;
+	public String strcaller;
+	public URI uricallee;
+	public String strcallee;
+	public URI urimedia;
+	public String strmedia="sip:4@10.1.5.15:5070";
+
+	public URI urisender;
+	public URI urireceiver;
+	public String strsender;
+	public String strreceiver;
+
+	int invitecounter=0;
+	int ackcounter=0;
+
+	SipServletRequest request;
+	SipServletResponse response;
+
+	public void init(ServletConfig config)
+	throws ServletException
+	{
+		logger.debug("debug - altanai");
+		System.out.println("initiate function");
+		super.init(config);
+		context=config.getServletContext();
+		factory = (SipFactory) context.getAttribute(SipServlet.SIP_FACTORY);
+		caller2callee= factory.createApplicationSession();
+	}
+
+	public void doInvite(SipServletRequest request)
+	throws javax.servlet.ServletException,
+			java.io.IOException,
+			java.lang.IllegalStateException,
+			ServletParseException
+	{
+		System.out.println("doinvite function");
+		invitecounter=1;
+
+		if(request.isInitial()){
+			System.out.println("initial create ");
+
+			uricaller=request.getFrom().getURI();
+			uricallee=request.getTo().getURI();
+
+			strcaller=request.getFrom().getURI().toString();
+			strcallee=request.getTo().getURI().toString();
+
+			System.out.println("caller: "+strcaller);
+			System.out.println("callee: "+strcallee);
+
+			functionproxy(request,uricallee);
+			invitecounter++;
+		}
+		else if(invitecounter==2 || request.getFrom().getURI().toString().equalsIgnoreCase(strcallee)){
+			System.out.println("invite hold");
+			functionproxy(request, uricaller);
+			invitecounter++;
+		}
+
+		else if(invitecounter ==3){
+			System.out.println("invite sned to media server");
+			functionb2bua(caller2callee,"INVITE",strcaller,strmedia);
+			caller2mediaserver=request.getApplicationSession();
+			invitecounter++;
+		}
+		else if(invitecounter ==4){
+			System.out.println("invite sned from callee to caller to unhold ");
+			functionb2bua(caller2callee,"INVITE",strcaller,strcallee);
+			functionb2bua(caller2mediaserver,"BYE",strcallee,strmedia);
+			invitecounter++;
+		}
+
+	}
+
+	public void doSucessResponse(SipServletResponse response)
+	throws ServletException, IOException
+	{
+		System.out.println("dosuccessresponse function");
+		if(invitecounter==1)
+		{
+			// invite create response
+			functionproxy(request, uricaller);
+		}
+		else if ( invitecounter==2)
+		{
+			//invite hold response
+			functionproxy(request, uricallee);
+		}
+
+	}
+
+	public void doAck(SipServletRequest request)
+	throws javax.servlet.ServletException,java.io.IOException
+	{
+		System.out.println("do ack function");
+		ackcounter=1;
+
+		if (ackcounter==1 || request.getFrom().getURI().toString().equalsIgnoreCase(strcaller))
+		{
+			System.out.println("ack send from caller to callee ");
+			//functionproxy(request, uricallee);
+			ackcounter++;
+		}
+
+		else if(ackcounter==2 || request.getFrom().getURI().toString().equalsIgnoreCase(strcallee))
+		{
+			System.out.println("ack for invite hold send from callee to caller  ");
+			//functionproxy(request, uricaller);
+			ackcounter++;
+		}
+
+		else if(invitecounter ==3){
+			System.out.println("ack send from callee to media server");
+			functionb2bua(caller2mediaserver,"INVITE",strcaller,strcallee);
+			invitecounter++;
+		}
+		else if(invitecounter ==4){
+			System.out.println("ack send from callee to caller ");
+			functionb2bua(caller2callee,"INVITE",strcaller,strcallee);
+			functionb2bua(caller2callee,"BYE",strcaller,strcallee);
+			invitecounter++;
+		}
+	}
+
+
+	public void doBye(SipServletRequest request)
+	throws javax.servlet.ServletException,java.io.IOException
+	{
+		System.out.println("Bye function");
+		if(request.getFrom().getURI().equals(uricaller))
+		{
+		functionproxy(request, uricallee);
+		}
+		else
+		{
+		functionproxy(request, uricaller);
+		}
+
+
+	}
+
+	public void functionproxy(SipServletRequest request, URI uriproxyto)
+	throws javax.servlet.ServletException,java.io.IOException{
+		System.out.println("functionproxy function ");
+		proxy=request.getProxy(true);
+		proxy.setRecordRoute(true);
+		proxy.proxyTo(uriproxyto);
+	}
+
+	public void functionb2bua(SipApplicationSession session,String method, String fromadd ,String toadd)
+	throws javax.servlet.ServletException,java.io.IOException{
+		System.out.println("functionb2bua function");
+		SipServletRequest request = factory.createRequest(session,method,fromadd,toadd);
+		request.setContent(response.getContent(),response.getContentType());
+		request.send();
+	}
+
+}
