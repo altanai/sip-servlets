@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sip-app 
+  PUBLIC "-//Java Community Process//DTD SIP Application 1.0//EN" 
+  "http://www.jcp.org/dtd/sip-app_1_0.dtd">
+<sip-app>
+  
+  <display-name>Musichold</display-name>
+  
+  <servlet>
+    <servlet-name>Musichold</servlet-name>
+    <servlet-class>com.tcs.Musichold</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>Musichold</servlet-name>
+    <pattern>
+    <or>
+        		<equal>
+    				<var>request.method</var>
+    				<value>INVITE</value>
+    			</equal>
+    			<equal>
+    				<var>request.method</var>
+    				<value>BYE</value>
+    			</equal>
+    			
+		</or>
+	</pattern>
+  </servlet-mapping>
+  -->
+</sip-app>

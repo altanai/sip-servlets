@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sip-app 
+  PUBLIC "-//Java Community Process//DTD SIP Application 1.0//EN" 
+  "http://www.jcp.org/dtd/sip-app_1_0.dtd">
+<sip-app>
+  <display-name>VoiceCall</display-name>
+  <servlet>
+    <servlet-name>VoiceCall</servlet-name>
+    <servlet-class>com.VoiceCall</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>VoiceCall</servlet-name>
+    <pattern>
+      <or>
+            <equal><var>request.method</var><value>REGISTER</value></equal>
+            <equal><var>request.method</var><value>INVITE</value></equal>
+      </or>
+    </pattern>
+  </servlet-mapping>
+</sip-app>

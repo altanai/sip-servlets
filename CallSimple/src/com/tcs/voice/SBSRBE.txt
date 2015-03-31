@@ -1,0 +1,43 @@
+public class Sample_TimerServlet extends SipServlet
+   implements TimerListener {
+	  private TimerService timerService;
+	  private static String TIMER_ID = "NOTIFY_TIMEOUT_TIMER";
+	  public void init() throws ServletException {
+	    try {
+	      timerService = 
+		(TimerService)getServletContext().getAttribute
+		      ("javax.servlet.sip.TimerService");
+	    } 
+	    catch(Exception e) {
+	      log ("Exception initializing the servlet "+ e);
+	    }
+	  }
+	  protected void doSubscribe(SipServletRequest req)
+	  throws ServletException, IOException {
+	    req.createResponse(200).send();
+	    req.getSession().createRequest("NOTIFY").send();
+	    ServletTimer notifyTimeoutTimer = 
+	      timerService.createTimer(req.getApplicationSession(), 3000, 
+		  false, null);
+	    req.getApplicationSession().setAttribute(TIMER_ID, 
+		notifyTimeoutTimer);
+	  }
+	  protected void doSuccessResponse(SipServletResponse res) 
+	  throws javax.servlet.ServletException, java.io.IOException {
+	    if (res.getMethod().equals("NOTIFY")) {
+	      ServletTimer notifyTimeoutTimer =      
+	  (ServletTimer)(res.getApplicationSession().getAttribute(TIMER_ID));
+	      if (notifyTimeoutTimer != null) {
+	        notifyTimeoutTimer.cancel();
+	        res.getApplicationSession().removeAttribute(TIMER_ID);
+	      }
+	    }
+	  }
+	  public void timeout(ServletTimer timer) {
+	    // This indicates that the timer has fired because a 200 to
+	    // NOTIFY was not received. Here you can take any timeout 
+	    // action. 
+	    // .........
+	    timer.getApplicationSession().removeAttribute("NOTIFY_TIMEOUT_TIMER");
+	  }   
+	}

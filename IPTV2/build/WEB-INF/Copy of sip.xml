@@ -1,0 +1,181 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!-- 
+  B2BUA  v1.0
+  FileName: sip.xml
+  Purpose : Provides initial configuration to SIP PART of converged B2BUA application
+  Author  : Ashish raghuvanshi	
+  Author  : TCSL
+  Date    : APR 2007
+ -->
+<!DOCTYPE sip-app 
+  PUBLIC "-//Java Community Process//DTD SIP Application 1.0//EN" 
+  "http://www.jcp.org/dtd/sip-app_1_0.dtd">
+
+<sip-app>
+  <display-name>B2BUA</display-name>
+  <description>A simple application illustrating how to write a back-to-back user agent (B2BUA).</description>
+
+  <servlet>
+    <servlet-name>B2BUA</servlet-name>
+    <display-name>B2BUA</display-name>
+    <description>B2BUA main servlet</description>
+    <servlet-class>b2bua.B2buaSipServlet</servlet-class>
+    
+    
+    
+    <init-param>
+      <param-name>remote</param-name>
+      <param-value>100.1.1.5</param-value>
+      <description>UAS IP address</description>
+    </init-param>
+    
+    <init-param>
+      <param-name>transport</param-name>
+      <param-value>udp</param-value>
+      <description>connect UAS transport</description>
+  	</init-param>
+     
+  	<init-param>
+      <param-name>proxyhost</param-name>
+      <param-value>172.21.100.170</param-value>
+      <description>IP of proxy server</description>
+  	</init-param>
+     
+  	<init-param>
+      <param-name>proxyport</param-name>
+      <param-value>8080</param-value>
+      <description>port no. of the proxy server</description>
+    </init-param>
+    
+    <init-param>
+      <param-name>userid</param-name>
+      <param-value>india\232341</param-value>
+      <description>Authentication userId of proxy server</description>
+    </init-param>
+    
+    <init-param>
+      <param-name>password</param-name>
+      <param-value>Password123</param-value>
+      <description>Authentication password of proxy server</description>
+    </init-param>
+    
+    <init-param>
+      <param-name>port</param-name>
+      <param-value>5060</param-value>
+      <description>UAS port</description>
+    </init-param>
+
+    <load-on-startup>1</load-on-startup>
+</servlet>
+
+  <servlet>
+	<servlet-name>HookedOn</servlet-name>
+    <display-name>HookedOn</display-name>
+    <description>HookedOn main servlet</description>
+    <servlet-class>b2bua.HookedOnSipServlet</servlet-class>
+    
+    
+    
+    <init-param>
+      <param-name>remote</param-name>
+      <param-value>100.1.1.5</param-value>
+      <description>UAS IP address</description>
+    </init-param>
+    
+    <init-param>
+      <param-name>transport</param-name>
+      <param-value>udp</param-value>
+      <description>connect UAS transport</description>
+  	</init-param>
+     
+    
+    <init-param>
+      <param-name>port</param-name>
+      <param-value>5060</param-value>
+      <description>UAS port</description>
+    </init-param>
+
+    <load-on-startup>1</load-on-startup>
+</servlet>
+    
+<servlet>
+	<servlet-name>ACS</servlet-name>
+    <display-name>ACS</display-name>
+    <description>ACS main servlet</description>
+    <servlet-class>b2bua.ACSSipServlet</servlet-class>
+   <load-on-startup>1</load-on-startup>
+</servlet>
+   
+<servlet-mapping>
+    <servlet-name>HookedOn</servlet-name>
+    <pattern>
+    	<and>
+      		<equal>
+				<var>request.method</var>
+				<value>INVITE</value>
+			</equal>
+		<or>
+      		<equal>
+               <var>request.uri.user</var>
+               <!-- This will be replaced by the build script -->
+               <value>rahul</value>
+            </equal>
+        	<equal>
+               <var>request.uri.user</var>
+               <!-- This will be replaced by the build script -->
+               <value>hookedon</value>
+            </equal>
+      	</or>
+      	    
+      	</and>	
+	</pattern>
+			
+  </servlet-mapping>
+	
+	
+  <servlet-mapping>
+    <servlet-name>B2BUA</servlet-name>
+    <pattern>
+    	<or>
+      		<!--<equal>
+				<var>request.method</var>
+				<value>INVITE</value>
+			</equal>-->
+			<!--<equal>
+				<var>request.method</var>
+				<value>BYE</value>
+			</equal>-->
+      		<!--
+      		<equal>
+				<var>request.method</var>
+				<value>MESSAGE</value>
+			</equal>-->
+		</or>	
+	</pattern>
+  </servlet-mapping>
+
+ <servlet-mapping>
+    <servlet-name>ACS</servlet-name>
+    <pattern>
+    	<or>
+    		<equal>
+				<var>request.method</var>
+				<value>REGISTER</value>
+			</equal>
+			<equal>
+				<var>request.method</var>
+				<value>SUBSCRIBE</value>
+			</equal>
+			<equal>
+				<var>request.method</var>
+				<value>MESSAGE</value>
+			</equal>
+		</or>
+	</pattern>
+  </servlet-mapping>
+
+ 
+</sip-app>
+
+

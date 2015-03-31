@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- 
+  B2BUA  v1.0
+  FileName: web.xml
+  Purpose : Provides initial configuration to WEB PART of converged B2BUA application
+  Author  : Ashish raghuvanshi	
+  Author  : TCSL
+  Date    : APR 2007
+ -->
+<!DOCTYPE web-app
+    PUBLIC "-//Sun Microsystems, Inc.//DTD Web Application 2.3//EN"
+    "http://java.sun.com/dtd/web-app_2_3.dtd">
+
+<web-app>
+	<display-name>CallScreening</display-name>
+	<description>CallScreening</description>
+		<servlet>
+	 		<servlet-name>CSusers</servlet-name>
+            <servlet-class>com.tcs.voice.CSusers</servlet-class>
+        </servlet>
+	   
+        <servlet-mapping>
+                <servlet-name>CSusers</servlet-name>
+                <url-pattern>CallScreening/CSusers</url-pattern>
+              <!--  <url-pattern>B2BUA/ACSHttpServlet</url-pattern> -->
+        </servlet-mapping>
+        
+
+</web-app>

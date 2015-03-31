@@ -1,0 +1,123 @@
+<?xml version="1.0"?>
+<!-- 
+  Service Broker
+  
+  Purpose : .
+  Author  : CNS Lab 
+  Author  : TCS
+  Date    : July 2010
+ -->
+
+
+<project name="ThirdPartyTransfer" default="dist" basedir=".">
+	<description>ThirdPartyTransfer</description>
+	
+	<property environment="env" />
+
+	<property name="project.dir" location="${basedir}" />
+	<property name="res.dir" location="${project.dir}/etc" />
+	<property name="weblogic.dir" location="C:\bea30\sipserver30" />
+	<property file="build.properties" />
+	<!-- set global properties for this build -->
+
+	<property name="src.dir" location="src" />
+	<property name="build.dir" location="build" />
+	<property name="dist.dir" location="dist" />
+	<property name="web.dir" location="web" />
+	<property name="lib.dir" location="${web.dir}/WEB-INF/lib" />
+
+	<path id="lib.class.path">
+		<fileset dir="${lib.dir}">
+			<include name="**/*.jar" />
+		</fileset>
+		<fileset dir="${weblogic.dir}\telco\auxlib">
+			<include name="sipservlet.jar" />
+		</fileset>
+		<fileset dir="${weblogic.dir}\telco\lib">
+			<include name="wcp_sip_core.jar" />
+		</fileset>
+		<fileset dir="${weblogic.dir}\server\lib">
+			<include name="weblogic.jar" />
+		</fileset>
+		
+	</path>
+
+	<target name="clean" description="clean up">
+		<!-- Delete the ${build} and ${dist} directory trees -->
+		<delete dir="${build.dir}" />
+		<delete dir="${dist.dir}" />
+	</target>
+
+	<target name="init" depends="clean">
+		<!-- Create the time stamp -->
+		<tstamp />
+		<!-- Create the build directory structure used by compile -->
+		<mkdir dir="${build.dir}" />
+		<mkdir dir="${build.dir}/WEB-INF/" />
+		<mkdir dir="${build.dir}/WEB-INF/classes" />
+		<mkdir dir="${build.dir}/META-INF/" />
+		
+	</target>
+
+	<target name="compile" depends="init" description="compile the source ">
+	
+		<!-- Compile the java code from ${src.dir} into the web directory. -->
+		<echo>Compiling web classes from ${src.dir} to ${build.dir}/WEB-INF/classes</echo>
+		<javac srcdir="${src.dir}" destdir="${build.dir}/WEB-INF/classes">
+			<classpath refid="lib.class.path" />
+		</javac>
+
+		<!-- Copy Webcontent.-->
+		<echo>Copying WebContent from ${web.dir} to ${build.dir}</echo>
+		<copy todir="${build.dir}">
+			<fileset dir="${web.dir}">
+				<include name="**/*" />
+			</fileset>
+		</copy>
+
+	<!-- Copy Non-Java-Resources.-->
+		<echo>Copying Resources from ${src.dir} to ${build.dir}/WEB-INF</echo>
+		<copy todir="${build.dir}/WEB-INF/classes">
+			<fileset dir="${src.dir}">
+				<include name="**/*" />
+				<exclude name="**/*.java" />
+			</fileset>
+		</copy>
+	
+	</target>
+
+	<target name="dist" depends="compile">
+		<!-- Create the distribution directory -->
+		<mkdir dir="${dist.dir}" />
+
+		<jar jarfile="${dist.dir}/${ant.project.name}.war" basedir="${build.dir}">
+			<manifest>
+				<attribute name="Created-By" value="Ant, auto-build for ${ant.project.name}" />
+			</manifest>
+		</jar>
+	</target>
+
+ <target name="deploy">
+    <wldeploy action="deploy"
+      source="dist/ThirdPartyTransfer.war"
+      name="MyEcoServlet"
+      user="weblogic"
+      password="weblogic"
+      verbose="true"
+      nostage="true"
+      adminurl="t3://localhost:7001"
+      targets="myserver"
+    />
+  </target> 
+
+<target name="undeploy">
+    <wldeploy
+      action="undeploy" verbose="true" debug="true"
+      name="ThirdPartyTransfer"
+      user="weblogic" password="weblogic"
+      adminurl="t3://localhost:7001" targets="myserver"
+      failonerror="false" />
+  </target>
+
+
+</project>

@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sip-app 
+  PUBLIC "-//Java Community Process//DTD SIP Application 1.0//EN" 
+  "http://www.jcp.org/dtd/sip-app_1_0.dtd">
+<sip-app>
+  
+  <display-name>ThirdPartyTransfer</display-name>
+  
+  <servlet>
+    <servlet-name>ThirdPartyTransfer</servlet-name>
+    <servlet-class>com.ThirdPartyTransfer.TransferController</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>ThirdPartyTransfer</servlet-name>
+    <pattern>
+      <or>
+            <equal><var>request.method</var><value>ACK</value></equal>
+            <equal><var>request.method</var><value>INVITE</value></equal>
+      </or>
+    </pattern>
+  </servlet-mapping>
+  
+</sip-app>
