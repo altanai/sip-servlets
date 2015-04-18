@@ -1,0 +1,35 @@
+<!-- 
+
+  Registrar  v2.0
+  
+  Purpose : Registrar to manage and store SIP Register Requests into Database 
+  Author  : Altanai Bisht
+  Author  : http://altanaitelecom.wordpress.com
+  Date    : Feb 2013
+
+ -->
+ 
+ 
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sip-app 
+  PUBLIC "-//Java Community Process//DTD SIP Application 1.0//EN" 
+  "http://www.jcp.org/dtd/sip-app_1_0.dtd">
+<sip-app>
+  
+  <display-name>Registrar</display-name>
+  
+  <servlet>
+    <servlet-name>Registrar</servlet-name>
+    <servlet-class>com.tcs.Registrar</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>Registrar</servlet-name>
+    <pattern>
+        		<equal>
+    				<var>request.method</var>
+    				<value>REGISTER</value>
+    			</equal>
+
+	</pattern>
+  </servlet-mapping>
+</sip-app>

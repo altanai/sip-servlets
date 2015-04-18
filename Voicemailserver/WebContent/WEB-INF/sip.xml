@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!-- 
+  B2BUA  v1.0
+  FileName: sip.xml
+  Purpose : Provides initial configuration to SIP PART of converged B2BUA application
+  Author  : Ashish raghuvanshi	
+  Author  : TCSL
+  Date    : APR 2007
+ -->
+<!DOCTYPE sip-app 
+  PUBLIC "-//Java Community Process//DTD SIP Application 1.0//EN" 
+  "http://www.jcp.org/dtd/sip-app_1_0.dtd">
+
+<sip-app>
+  <display-name>Voicemailserver</display-name>
+  <description>A simple application illustrating how to write a back-to-back user agent (B2BUA).</description>
+
+
+    
+<servlet>
+	<servlet-name>MP</servlet-name>
+    <display-name>MP</display-name>
+    <description>Voice Call servlet</description>
+    <servlet-class>com.tcs.Voicemailserver</servlet-class>
+   <load-on-startup>1</load-on-startup>
+</servlet>
+   
+
+ <servlet-mapping>
+    <servlet-name>MP</servlet-name>
+    <pattern>
+    	<or>
+	
+    		<equal>
+				<var>request.method</var>
+				<value>INVITE</value>
+			</equal>
+		
+		
+			<equal>
+				<var>request.method</var>
+				<value>BYE</value>
+			</equal>
+			
+		</or>
+	</pattern>
+  </servlet-mapping>
+
+ 
+</sip-app>
+
+

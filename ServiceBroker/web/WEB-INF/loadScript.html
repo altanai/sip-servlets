@@ -1,0 +1,73 @@
+<html>
+<body background="background.jpg">
+
+<h3  align="center">Convergent Server</h3>
+<marquee direction="right">Load Your Script Here</marquee>
+<form name="input" action="/B2BUA/ACSHttpServlet"
+method="get">
+<HR>
+<BR>
+IP of your machine: 
+<input  align="center" type="text" name="IP">
+<BR>
+<BR>
+Cause Value: 
+<input  align="center" type="text" name="cause">
+<BR>
+<select align="center" name="scriptName">ScriptName:
+<option value="reg" selected="selected">Location Update Success</option>
+<option value="regfail" selected="selected">MS Deregister</option>
+<option value="ssdupdate">SSD Update procedure</option>
+<option value="auth">MS Authentication</option>
+<option value="paramupdt">Parameter Update Procedure</option>
+<option value="orderedreg">Ordered Registration Procedure</option>
+<option value="nwdereg">Network Initiated Deregistration Procedure</option>
+<option value="mofail">Mobile Originated Call Failure</option>
+<option value="mosucc">Mobile Originated Call Success</option>
+<option value="mtfail">Mobile Terminated Call Failure</option>
+<option value="mtsucc">Mobile Terminated Call Success</option>
+<option value="mosms">Mobile Originated SMS Success</option>
+<option value="mtsms">Mobile Terminated SMS Success</option>
+<option value="mosmstraffic">Mobile Originated SMS In Traffic</option>
+<option value="mtsmstraffic">Mobile Terminated SMS In Traffic</option>
+<option value="mosmsfail">Mobile Originated SMS Failure</option>
+<option value="mtsmsfail">Mobile Terminated SMS Failure</option>
+<option value="regcause">Location Update Success Cause</option>
+
+<option value="sendtel">Tel URL Test</option>
+
+</select>
+<BR>
+<BR>
+<input type="hidden" name="userToken" 
+                value="1">
+
+<BR>
+<BR>
+<select align="center" name="userName">User Name
+<option value="femto" selected="selected">femto :  Identity for Dispatcher Module</option>
+<option value="4b3f">4b3f :  Identity for femto registration</option>
+<option value="alice">momt : Identity for MS registration</option>
+<option value="alice">1234 : Identity for MS registration</option>
+<option value="alice">1111 : Identity for MS registration</option>
+<option value="alice">5678 : Identity for MS registration</option>
+<option value="rishu">9876 : Identity for MS registration</option>
+<option value="momt">momt : Identity</option>
+<option value="amitava">amitava : Identity</option>
+</select>
+<BR>
+<BR>
+<BR>
+<BR>
+<select align="center" name="client">Client Name
+<option value="femto" selected="selected">femto :  Identity for SIP</option>
+<option value="nitin">nitin :  Identity for IMS</option>
+</select>
+<BR>
+<HR>
+<BR>
+<div align="center"><input type="submit" value="Submit" align="center" ><div>
+</form>
+</body>
+</html>
+

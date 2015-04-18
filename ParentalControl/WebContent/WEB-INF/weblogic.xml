@@ -1,0 +1,31 @@
+<!-- 
+  Parental Control  v2.0
+  
+  Purpose : Parental Control after fetching values from database 
+  Author  : Altanai Bisht
+  Author  : http://altanaitelecom.wordpress.com
+  Author  : TCSL
+  Date    : Feb 2013
+  
+ -->
+ 
+<!DOCTYPE weblogic-web-app PUBLIC
+    "-//BEA Systems, Inc.//DTD Web Application 8.1//EN"
+    "http://www.bea.com/servers/wls810/dtd/weblogic810-web-jar.dtd">
+
+<weblogic-web-app>
+  
+<jsp-descriptor>
+     <jsp-param>
+          <param-name>
+            precompile
+          </param-name>
+          <param-value>
+           true
+          </param-value>
+     </jsp-param>
+</jsp-descriptor>
+
+</weblogic-web-app>
+
+

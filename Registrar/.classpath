@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<classpath>
+	<classpathentry kind="src" path="src"/>
+	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
+	<classpathentry kind="lib" path="web/WEB-INF/lib/cldc-1.1.jar"/>
+	<classpathentry kind="lib" path="web/WEB-INF/lib/commons-codec-1.4.jar"/>
+	<classpathentry kind="lib" path="web/WEB-INF/lib/commons-collections-3.2.1.jar"/>
+	<classpathentry kind="lib" path="web/WEB-INF/lib/commons-io-1.4.jar"/>
+	<classpathentry kind="lib" path="web/WEB-INF/lib/commons-lang-2.4.jar"/>
+	<classpathentry kind="lib" path="web/WEB-INF/lib/commons-logging-1.1.1.jar"/>
+	<classpathentry kind="lib" path="web/WEB-INF/lib/commons-logging-1.1.jar"/>
+	<classpathentry kind="lib" path="web/WEB-INF/lib/commons-logging.jar"/>
+	<classpathentry kind="lib" path="web/WEB-INF/lib/cos.jar"/>
+	<classpathentry kind="lib" path="web/WEB-INF/lib/log4j-1.2.8.jar"/>
+	<classpathentry kind="lib" path="web/WEB-INF/lib/ojdbc6.jar"/>
+	<classpathentry kind="lib" path="web/WEB-INF/lib/postgresql-9.1-901.jdbc3.jar"/>
+	<classpathentry kind="lib" path="web/WEB-INF/lib/postgresql-9.1-902.jdbc4.jar"/>
+	<classpathentry kind="lib" path="web/WEB-INF/lib/postgresql.jar"/>
+	<classpathentry kind="lib" path="web/WEB-INF/lib/servlet.jar"/>
+	<classpathentry kind="lib" path="web/WEB-INF/lib/sipservlet-1_1-api.jar"/>
+	<classpathentry kind="lib" path="web/WEB-INF/lib/sipservlet.jar"/>
+	<classpathentry kind="output" path="bin"/>
+</classpath>

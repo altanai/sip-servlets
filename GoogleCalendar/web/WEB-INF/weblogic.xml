@@ -1,0 +1,28 @@
+<!-- 
+  Call screening with Google Calendar 
+  
+  Purpose : To Screen user calls if he is unavailable ie marked with meeting / appointment etc 
+   			 on his calendar for the time period when the call arrives 
+  Author  : Altanai Bisht
+  Author  : http://altanaitelecom.wordpress.com
+  Date    : Feb 2013
+ -->
+ 
+<!DOCTYPE weblogic-web-app PUBLIC
+    "-//BEA Systems, Inc.//DTD Web Application 8.1//EN"
+    "http://www.bea.com/servers/wls810/dtd/weblogic810-web-jar.dtd">
+
+<weblogic-web-app>
+  
+<jsp-descriptor>
+     <jsp-param>
+          <param-name>
+            precompile
+          </param-name>
+          <param-value>
+           true
+          </param-value>
+     </jsp-param>
+</jsp-descriptor>
+
+</weblogic-web-app>

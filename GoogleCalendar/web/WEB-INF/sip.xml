@@ -1,0 +1,39 @@
+<!-- 
+  Call screening with Google Calendar 
+  
+  Purpose : To Screen user calls if he is unavailable ie marked with meeting / appointment etc 
+   			 on his calendar for the time period when the call arrives 
+  Author  : Altanai Bisht
+  Author  : http://altanaitelecom.wordpress.com
+  Date    : Feb 2013
+ -->
+
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sip-app 
+  PUBLIC "-//Java Community Process//DTD SIP Application 1.0//EN" 
+  "http://www.jcp.org/dtd/sip-app_1_0.dtd">
+<sip-app>
+  
+  <display-name>GoogleCalendar</display-name>
+  
+  <servlet>
+    <servlet-name>GoogleCalendar</servlet-name>
+    <servlet-class>com.tcs.GoogleCalendar</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>GoogleCalendar</servlet-name>
+    <pattern>
+    <or>
+        		<equal>
+    				<var>request.method</var>
+    				<value>INVITE</value>
+    			</equal>
+    			<equal>
+    				<var>request.method</var>
+    				<value>BYE</value>
+    			</equal>
+    			
+		</or>
+	</pattern>
+  </servlet-mapping>
+</sip-app>

@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!-- 
+  B2BUA  v1.0
+  FileName: sip.xml
+  Purpose : Parental control
+  Author  : Altanai Bisht	
+  Author  : TCS CNS LAb
+  Date    : Feb 2013 
+ -->
+<!DOCTYPE sip-app 
+  PUBLIC "-//Java Community Process//DTD SIP Application 1.0//EN" 
+  "http://www.jcp.org/dtd/sip-app_1_0.dtd">
+
+<sip-app>
+  <display-name>ParentalControl</display-name>
+  <description>A simple application illustrating how to write a Proxy.</description>
+
+
+    
+<servlet>
+	<servlet-name>ParentalControl</servlet-name>
+    <display-name>ParentalControl</display-name>
+    <description>ParentalControlservlet</description>
+    <servlet-class>com.tcs.ParentalControl</servlet-class>
+   <load-on-startup>1</load-on-startup>
+</servlet>
+   
+
+ <servlet-mapping>
+    <servlet-name>ParentalControl</servlet-name>
+    <pattern>
+    	<and>
+		    <or>
+				<equal>
+					<var>request.method</var>
+					<value>INVITE</value>
+				</equal>
+					<equal>
+						<var>request.method</var>
+						<value>MESSAGE</value>
+					</equal>
+			</or>
+			<equal>
+				<var>request.to.uri.user</var>
+				<value>myiptv</value>
+			</equal>		
+		</and>
+	</pattern>
+  </servlet-mapping>
+
+ 
+</sip-app>
+
+
